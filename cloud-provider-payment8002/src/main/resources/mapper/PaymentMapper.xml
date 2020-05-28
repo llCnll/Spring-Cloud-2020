@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.chennan.springcloud.dao.PaymentDao">
+
+    <!--
+       id : PaymentDao 中对应方法名
+       parameterType : 在application.yml设置了前缀type-aliases-package
+       useGeneratedKeys : 插入成功 返回大于0
+       keyProperty : 主键
+    -->
+    <insert id="create" parameterType="Payment" useGeneratedKeys="true" keyProperty="id">
+        insert into payment(serial) values(#{serial});
+    </insert>
+
+    <resultMap id="BaseResultMap" type="Payment">
+        <!--
+            column : 数据库列名
+            property : java字段名
+            jdbcType : 数据库类型
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serial" property="serial" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--
+        resultMap : 返回自定义map
+        resultType : 返回类型
+    -->
+    <select id="getPaymentById" parameterType="Long" resultMap="BaseResultMap">
+        select * from payment where id = #{id};
+    </select>
+
+</mapper>
