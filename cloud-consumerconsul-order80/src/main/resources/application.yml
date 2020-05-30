@@ -1,0 +1,13 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: consul-consumer-order #服务器别名--注册侧Zookeeper到注册中心名称
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        #hostname: 127.0.0.1
+        service-name: ${spring.application.name}
