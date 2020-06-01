@@ -2,14 +2,20 @@ package cn.chennan.springcloud.controller;
 
 import cn.chennan.springcloud.entities.CommonResult;
 import cn.chennan.springcloud.entities.Payment;
+import cn.chennan.springcloud.lb.LoadBalancer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.List;
 
 /**
  * @author cn
@@ -25,6 +31,12 @@ public class OrderController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private LoadBalancer loadBalancer;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @PostMapping(value = "/consumer/payment/create")
     public CommonResult<Payment> create (Payment payment){
@@ -48,5 +60,13 @@ public class OrderController {
         }else{
             return new CommonResult<>(444, "操作失败");
         }
+    }
+
+    @GetMapping(value = "/consumer/payment/lb")
+    public String getPaymentLB(){
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        ServiceInstance instance = loadBalancer.instances(instances);
+        URI uri = instance.getUri();
+        return restTemplate.getForObject(uri+"/payment/lb", String.class);
     }
 }
