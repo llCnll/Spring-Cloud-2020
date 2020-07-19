@@ -1,3 +1,5 @@
+*.iml
+.idea/
 /cloud-provider-payment8001/target/
 /cloud-consumer-order80/target/
 /cloud-api-commons/target/
@@ -15,3 +17,4 @@
 /cloud-gateway-gateway9527/target/
 /cloud-config-center3344/target/
 /cloud-config-client3355/target/
+/cloud-config-client3366/target/

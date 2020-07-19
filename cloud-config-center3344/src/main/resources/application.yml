@@ -14,6 +14,18 @@ spring:
             - springclouid-config
       #### 读取分支
       label: master
+# rabbitmq相关配置 15672是web管理界面的端口, 5672都是MQ访问的端口
+  rabbitmq:
+    host: 192.168.112.141
+    port: 5672
+    username: guest
+    password: guest
+# rabbitmq相关配置, 暴露bus刷新配置的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
 
 eureka:
   client:
