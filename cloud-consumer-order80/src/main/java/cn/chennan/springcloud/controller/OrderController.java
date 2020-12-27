@@ -73,6 +73,8 @@ public class OrderController {
     /**
      * 2020年12月27日 18:39:51 忘记以前使用CLOUD-PAYMENT-SERVICE是不是这么复杂
      * 可能之前是直接用的明文url
+     * 解决了 需要给创建restTemplate的bean上加上LoadBalanced注解
+     * 可能之前是因为使用的自定义的规则
      * @return
      */
     @GetMapping("/consumer/payment/zipkin")
