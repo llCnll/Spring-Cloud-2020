@@ -69,4 +69,17 @@ public class OrderController {
         URI uri = instance.getUri();
         return restTemplate.getForObject(uri+"/payment/lb", String.class);
     }
+
+    /**
+     * 2020年12月27日 18:39:51 忘记以前使用CLOUD-PAYMENT-SERVICE是不是这么复杂
+     * 可能之前是直接用的明文url
+     * @return
+     */
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin() {
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        ServiceInstance instance = loadBalancer.instances(instances);
+        URI uri = instance.getUri();
+        return restTemplate.getForObject(uri + "/payment/zipkin", String.class);
+    }
 }
